@@ -59,6 +59,9 @@ class Wish
     #[Groups(['get_User', 'set_User'])]
     private ?Subject $subjectId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'wishes')]
+    private ?User $User_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +70,18 @@ class Wish
     public function setId(int $id): static
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->User_id;
+    }
+
+    public function setUserId(?User $User_id): static
+    {
+        $this->User_id = $User_id;
 
         return $this;
     }

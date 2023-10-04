@@ -61,14 +61,6 @@ class Group
     #[Groups(['group:read', 'group:write'])]
     private ?string $type = null;
 
-    #[ORM\ManyToMany(targetEntity: NbGroup::class, mappedBy: 'GroupRelation')]
-    private Collection $nbGroups;
-
-    public function __construct()
-    {
-        $this->nbGroups = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -96,33 +88,6 @@ class Group
     public function setType(string $type): static
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, NbGroup>
-     */
-    public function getNbGroups(): Collection
-    {
-        return $this->nbGroups;
-    }
-
-    public function addNbGroup(NbGroup $nbGroup): static
-    {
-        if (!$this->nbGroups->contains($nbGroup)) {
-            $this->nbGroups->add($nbGroup);
-            $nbGroup->addGroupRelation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNbGroup(NbGroup $nbGroup): static
-    {
-        if ($this->nbGroups->removeElement($nbGroup)) {
-            $nbGroup->removeGroupRelation($this);
-        }
 
         return $this;
     }

@@ -37,7 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             denormalizationContext: ['groups' => ['set_Subject']],
             security: "is_granted('ROLE_USER') and object == user"
         ),
-        ]
+    ]
 )]
 class Subject
 {
@@ -75,13 +75,9 @@ class Subject
     #[ORM\ManyToMany(targetEntity: Week::class, mappedBy: 'Subject')]
     private Collection $weeks;
 
-    #[ORM\ManyToMany(targetEntity: NbGroup::class, mappedBy: 'subject')]
-    private Collection $nbGroups;
-
     public function __construct()
     {
         $this->weeks = new ArrayCollection();
-        $this->nbGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,31 +186,5 @@ class Subject
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, NbGroup>
-     */
-    public function getNbGroups(): Collection
-    {
-        return $this->nbGroups;
-    }
-
-    public function addNbGroup(NbGroup $nbGroup): static
-    {
-        if (!$this->nbGroups->contains($nbGroup)) {
-            $this->nbGroups->add($nbGroup);
-            $nbGroup->addSubject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNbGroup(NbGroup $nbGroup): static
-    {
-        if ($this->nbGroups->removeElement($nbGroup)) {
-            $nbGroup->removeSubject($this);
-        }
-
-        return $this;
-    }
 }
+

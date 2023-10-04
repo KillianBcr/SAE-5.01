@@ -9,6 +9,9 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * @ORMFixture(order=1)
+ */
 class SubjectFixtures extends Fixture
 {
     public SemesterRepository $repository;

@@ -19,15 +19,18 @@ function Semester() {
             {semester === null ? 'Loading...' : (
                 <div>
                     <ul>
-                        {semester.subject.map((subject) => (
+                        {semester.subject && semester.subject.map((subject) => (
                             <li key={subject['@id']} className="semester-li">
                                 {subject.subjectCode + ' - ' + subject.name}
                                 <br/><br/>
-                                <p className="groupe">Groupes |</p>
+                                {subject.nbGroups && subject.nbGroups.map((nbGroup) => (
+                                    <p className="groupe" key={nbGroup.id}>
+                                        {`Groupe ${nbGroup.nbGroup} | Matière: ${nbGroup.subject.name}`}
+                                    </p>
+                                ))}
                                 <div className="Postuler-container">
                                     <button className="Postuler">Postuler</button>
                                 </div>
-
                             </li>
                         ))}
                     </ul>

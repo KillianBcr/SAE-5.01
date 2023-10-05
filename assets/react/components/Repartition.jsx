@@ -3,6 +3,25 @@ import "../../styles/repartition.css";
 import {Link, Route, Router} from 'wouter';
 
 function Repartition() {
+    const handleDeleteWish = (wishId) => {
+        // Envoyez une requête DELETE à l'API pour supprimer le Wish avec l'ID souhaité.
+        fetch(`/api/wishes/${wishId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => {
+                if (response.ok) {
+
+                } else {
+                    // gerer les erreurs
+                }
+            })
+            .catch((error) => {
+                // gerer les erreurs réseau
+            });
+    };
     return (
         <div className="table-container">
             <h2>Répartition de vos heures</h2>

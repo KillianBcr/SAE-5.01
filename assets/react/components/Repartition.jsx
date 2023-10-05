@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/repartition.css";
-import {Link, Route, Router} from 'wouter';
+import { Link } from 'wouter';
 
 function Repartition() {
+
+    const [wishes, setWishes] = useState([]);
+
     const handleDeleteWish = (wishId) => {
-        // Envoyez une requête DELETE à l'API pour supprimer le Wish avec l'ID souhaité.
         fetch(`/api/wishes/${wishId}`, {
             method: 'DELETE',
             headers: {
@@ -13,15 +15,17 @@ function Repartition() {
         })
             .then((response) => {
                 if (response.ok) {
-
+                    setWishes(wishes.filter((wish) => wish.id !== wishId));
                 } else {
-                    // gerer les erreurs
+
+                    console.error('Erreur lors de la suppression du souhait');
                 }
             })
             .catch((error) => {
-                // gerer les erreurs réseau
+                console.error('Erreur réseau lors de la suppression du souhait :', error);
             });
     };
+
     return (
         <div className="table-container">
             <h2>Répartition de vos heures</h2>
@@ -32,36 +36,29 @@ function Repartition() {
                     <th>Section</th>
                     <th>Volume</th>
                     <th>Modification</th>
+                    <th>Wish ID</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Cours 1</td>
-                    <td>Section A</td>
-                    <td>30 heures</td>
-                    <td>
-                        <button className="modifier-button">Modifier</button>
-                        <button className="supprimer-button">Supprimer</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cours 2</td>
-                    <td>Section B</td>
-                    <td>20 heures</td>
-                    <td>
-                        <button className="modifier-button">Modifier</button>
-                        <button className="supprimer-button">Supprimer</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colSpan="3"></td>
-                    <td>
-                        <Link to="/react/semesters" className="ajouter-button">Ajouter des heures</Link>
-                    </td>
-                </tr>
+                {wishes.map((wish) => (
+                    <tr key={wish.id}>
+                        <td>cours</td>
+                        <td>section</td>
+                        <td>volume heures</td>
+                        <td>
+                            <button className="modifier-button">Modifier</button>
+                            <button className="supprimer-button" onClick={() => handleDeleteWish(wish.id)}>Supprimer</button>
+                        </td>
+                        <td>{wish.id}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
+            <tr>
+                <td>
+                    <Link to="/react/semesters" className="ajouter-button">Ajouter des heures</Link>
+                </td>
+            </tr>
         </div>
     );
 }

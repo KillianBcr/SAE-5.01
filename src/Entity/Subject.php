@@ -75,9 +75,13 @@ class Subject
     #[ORM\ManyToMany(targetEntity: Week::class, mappedBy: 'Subject')]
     private Collection $weeks;
 
+    #[ORM\ManyToMany(targetEntity: NbGroup::class)]
+    private Collection $idNbGroup;
+
     public function __construct()
     {
         $this->weeks = new ArrayCollection();
+        $this->idNbGroup = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +187,30 @@ class Subject
         if ($this->weeks->removeElement($week)) {
             $week->removeSubject($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NbGroup>
+     */
+    public function getIdNbGroup(): Collection
+    {
+        return $this->idNbGroup;
+    }
+
+    public function addIdNbGroup(NbGroup $idNbGroup): static
+    {
+        if (!$this->idNbGroup->contains($idNbGroup)) {
+            $this->idNbGroup->add($idNbGroup);
+        }
+
+        return $this;
+    }
+
+    public function removeIdNbGroup(NbGroup $idNbGroup): static
+    {
+        $this->idNbGroup->removeElement($idNbGroup);
 
         return $this;
     }

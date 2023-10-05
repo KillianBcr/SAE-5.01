@@ -12,6 +12,7 @@ use App\Repository\NbGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NbGroupRepository::class)]
 #[ApiResource(
@@ -23,23 +24,23 @@ use Doctrine\ORM\Mapping as ORM;
             security: "is_granted('ROLE_ADMIN')"
         ),
         new Put(
-            security: "is_granted('ROLE_ADMIN') and object.getUser() == user",
+            security: "is_granted('ROLE_ADMIN')",
         ),
         new Patch(
-            security: "is_granted('ROLE_ADMIN') and object.getUser() == user",
+            security: "is_granted('ROLE_ADMIN')",
         ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN') and object.getUser() == user",
+            security: "is_granted('ROLE_ADMIN')",
         ),
         new Put(
             normalizationContext: ['groups' => ['get_NbGroup']],
             denormalizationContext: ['groups' => ['set_NbGroup']],
-            security: "is_granted('ROLE_USER') and object == user"
+            security: "is_granted('ROLE_USER')"
         ),
         new Patch(
             normalizationContext: ['groups' => ['get_NbGroup']],
             denormalizationContext: ['groups' => ['set_NbGroup']],
-            security: "is_granted('ROLE_USER') and object == user"
+            security: "is_granted('ROLE_USER')"
         ),
     ]
 )]
@@ -49,15 +50,19 @@ class NbGroup
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['get_NbGroup', 'set_NbGroup'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['get_NbGroup', 'set_NbGroup'])]
     private ?int $nbGroup = null;
 
     #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'nbGroups')]
+    #[Groups(['get_NbGroup', 'set_NbGroup'])]
     private Collection $GroupRelation;
 
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'nbGroups')]
+    #[Groups(['get_NbGroup', 'set_NbGroup'])]
     private Collection $subject;
 
     public function __construct()

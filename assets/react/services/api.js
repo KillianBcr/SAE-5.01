@@ -11,6 +11,7 @@ export function getSemester(id) {
         response.ok ? response.json() : Promise.resolve(null),
     );
 }
+
 export function fetchGroups() {
     return fetch(`${BASE_URL}/groups`)
         .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
@@ -22,16 +23,12 @@ export function getGroup(id) {
     );
 }
 
-
-
-
-export function getMe()
-{
-    return fetch(`${BASE_URL}/me`, {credentials: "include"}).then((response) => {
-        if (response.ok) {
-            return response.json();
-        } else if (response.status === 401) {
-            return Promise.resolve(null);
-        }});
+export function fetchSubjects() {
+    return fetch(`${BASE_URL}/subjects`)
+        .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
 }
 
+export function fetchNbGroups() {
+    return fetch(`${BASE_URL}/nb_groups`)
+        .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
+}

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {getSemester} from '../services/api';
-import {useRoute} from 'wouter';
+import React, { useState, useEffect } from 'react';
+import { getSemester } from '../services/api';
+import { useRoute } from 'wouter';
 
 function Semester() {
     const [semester, setSemester] = useState(null);
@@ -9,8 +9,6 @@ function Semester() {
     useEffect(() => {
         getSemester(params.id).then((data) => {
             setSemester(data);
-
-
         });
     }, [params.id]);
 
@@ -22,12 +20,14 @@ function Semester() {
                         {semester.subject && semester.subject.map((subject) => (
                             <li key={subject['@id']} className="semester-li">
                                 {subject.subjectCode + ' - ' + subject.name}
-                                <br/><br/>
-                                {subject.nbGroups && subject.nbGroups.map((nbGroup) => (
-                                    <p className="groupe" key={nbGroup.id}>
-                                        {`Groupe ${nbGroup.nbGroup} | Matière: ${nbGroup.subject.name}`}
-                                    </p>
-                                ))}
+                                <br /><br />
+                                <div className="groupe-container">
+                                    {subject.nbGroups.map((nbGroup) => (
+                                        <li key={nbGroup.id} className="groupe">
+                                            {`Groupe ${nbGroup.group.lib} | Matière: ${subject.name} | Nombre de groupes: ${nbGroup.nb_group}`}
+                                        </li>
+                                    ))}
+                                </div>
                                 <div className="Postuler-container">
                                     <button className="Postuler">Postuler</button>
                                 </div>

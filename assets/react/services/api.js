@@ -28,7 +28,14 @@ export function fetchSubjects() {
         .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
 }
 
-export function fetchNbGroups() {
-    return fetch(`${BASE_URL}/nb_groups`)
-        .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
+export function fetchNbGroup() {
+    return fetch(`${BASE_URL}/nb_groups`).then((response) =>
+        response.ok ? response.json() : Promise.resolve(null),
+    );
+}
+
+export function getNbGroup(id) {
+    return fetch(`${BASE_URL}/nb_groups/${id}`).then((response) =>
+        response.ok ? response.json() : Promise.resolve(null),
+    );
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -17,29 +18,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: NbGroupRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: ['groups' => ['get_NbGroup']],
+        ),
+        new GetCollection(),
         new Post(
-            normalizationContext: ['groups' => ['get_NbGroup']],
-            denormalizationContext: ['groups' => ['set_NbGroup']],
-            security: "is_granted('ROLE_ADMIN')"
+            security: "is_granted('ROLE_USER')"
         ),
         new Put(
-            security: "is_granted('ROLE_ADMIN')",
-        ),
-        new Patch(
-            security: "is_granted('ROLE_ADMIN')",
-        ),
-        new Delete(
-            security: "is_granted('ROLE_ADMIN')",
-        ),
-        new Put(
-            normalizationContext: ['groups' => ['get_NbGroup']],
-            denormalizationContext: ['groups' => ['set_NbGroup']],
             security: "is_granted('ROLE_USER')"
         ),
         new Patch(
-            normalizationContext: ['groups' => ['get_NbGroup']],
-            denormalizationContext: ['groups' => ['set_NbGroup']],
+            security: "is_granted('ROLE_USER')"
+        ),
+        new Delete(
             security: "is_granted('ROLE_USER')"
         ),
     ]

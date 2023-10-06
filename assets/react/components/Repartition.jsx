@@ -1,50 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/repartition.css";
 import { Link } from 'wouter';
+import {fetchSemesters, fetchWishes} from "../services/api";
 
 function Repartition() {
     const [wishes, setWishes] = useState([]);
 
-    const handleDeleteWish = (wishId) => {
-        fetch(`/api/wishes/${wishId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    setWishes(wishes.filter((wish) => wish.id !== wishId));
-                } else {
-                    console.error('Erreur lors de la suppression du souhait');
-                }
-            })
-            .catch((error) => {
-                console.error('Erreur réseau lors de la suppression du souhait :', error);
-            });
-    };
-
     useEffect(() => {
-        fetch('/api/user/wishes', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Erreur lors de la récupération des souhaits');
-                }
-            })
-            .then((data) => {
-                setWishes(data);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la récupération des souhaits :', error);
-            });
+        fetchWishes().then((data) => {
+            setWishes(data["hydra:member"]);
+        });
     }, []);
+
 
     return (
         <div className="table-container">
@@ -61,10 +28,9 @@ function Repartition() {
                 {wishes.map((wish) => (
                     <tr key={wish.id}>
                         <td>{wish.id}</td>
-                        <td>{wish.subject.hoursTotal}</td>
+                        <td>{wish.subjectId.hoursTotal}</td>
                         <td>
                             <button className="modifier-button">Modifier</button>
-                            <button className="supprimer-button" onClick={() => handleDeleteWish(wish.id)}>Supprimer</button>
                         </td>
                     </tr>
                 ))}
@@ -76,6 +42,7 @@ function Repartition() {
                 </td>
             </tr>
         </div>
+
     );
 }
 

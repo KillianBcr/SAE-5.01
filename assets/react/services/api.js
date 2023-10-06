@@ -35,3 +35,8 @@ export function getMe()
         }});
 }
 
+
+export function fetchWishes() {
+    return fetch(`${BASE_URL}/wishes`)
+        .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
+}

@@ -21,17 +21,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new GetCollection(),
         new Post(
-            security: "is_granted('ROLE_USER')"
-        ),
-        new Patch(
-            normalizationContext: ['groups' => ['get_Wish', 'set_Wish']],
-            security: "is_granted('ROLE_USER')"
+            security: "is_granted('get_Wish')"
         ),
         new Put(
-            security: "is_granted('ROLE_USER')"
+            security: "is_granted('get_Wish')"
+        ),
+        new Patch(
+            security: "is_granted('get_Wish')"
         ),
         new Delete(
-            security: "is_granted('ROLE_USER')"
+            security: "is_granted('get_Wish')"
         ),
     ]
 )]
@@ -40,11 +39,11 @@ class Wish
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['get_Wish', 'set_Wish'])]
+    #[Groups(['get_Wish'])]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['get_Wish', 'set_Wish'])]
+    #[Groups(['get_Wish'])]
     private ?int $chosenGroups = null;
 
     #[ORM\ManyToOne(inversedBy: 'wishes')]
@@ -58,6 +57,7 @@ class Wish
     #[ORM\ManyToOne(inversedBy: 'wishes')]
     private ?User $User_id = null;
 
+    #[Groups(['get_Wish'])]
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +70,7 @@ class Wish
         return $this;
     }
 
+    #[Groups(['get_Wish'])]
     public function getUserId(): ?User
     {
         return $this->User_id;
@@ -82,6 +83,7 @@ class Wish
         return $this;
     }
 
+    #[Groups(['get_Wish'])]
     public function getChosenGroups(): ?int
     {
         return $this->chosenGroups;
@@ -94,6 +96,7 @@ class Wish
         return $this;
     }
 
+    #[Groups(['get_Wish'])]
     public function getGroupeType(): ?Group
     {
         return $this->groupeType;
@@ -106,6 +109,7 @@ class Wish
         return $this;
     }
 
+    #[Groups(['get_Wish'])]
     public function getSubjectId(): ?Subject
     {
         return $this->subjectId;

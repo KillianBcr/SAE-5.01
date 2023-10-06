@@ -38,5 +38,14 @@ export function getMe()
 
 export function fetchWishes() {
     return fetch(`${BASE_URL}/wishes`)
-        .then((response) => (response.ok ? response.json() : Promise.resolve(null)));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Error fetching wishes: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            console.error(error);
+            return null;
+        });
 }

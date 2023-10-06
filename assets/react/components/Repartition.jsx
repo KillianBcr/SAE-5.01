@@ -28,7 +28,7 @@ function Repartition() {
                 {wishes.map((wish) => (
                     <tr key={wish.id}>
                         <td>{wish.id}</td>
-                        <td>{wish.subjectId.hoursTotal}</td>
+                        <td>{wish.subjectId ? wish.subjectId.hoursTotal : 'N/A'}</td>
                         <td>
                             <button className="modifier-button">Modifier</button>
                         </td>
@@ -42,8 +42,8 @@ function Repartition() {
                 </td>
             </tr>
         </div>
-
     );
+
 }
 
 export default Repartition;
